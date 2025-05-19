@@ -1,0 +1,117 @@
+In our pc, hardware is divided into pages/blocks that are loaded into ram.
+If unordered, then one by one they will be loaded into ram for searching specific data.
+otherwise, indexing used to reduce I/O time ( it does not reduce specific search time inside one block)
+
+For example, in word file if you have to search some topic then you may have to search all O(n) if there is no table of content
+but if you have table of content, it will be reduced. First we will table of content that is of single page and then we went to actual
+topic.
+
+As you know we get direct values in arrays using indexing that is O(1), similarly when we pass key to hash function, it just
+gives us hash key that is index and then according to it value is retrieved.
+
+Resizing and Rehashing:
+
+The most common approach is to create a new, larger hash table and rehash all the existing keys into this new table. This operation can be expensive (O(n)), but it's relatively rare and ensures that the hash table maintains efficient performance.
+Using a Load Factor:
+
+A load factor is a measure of how full the hash table is. A typical load factor threshold might be 0.7, meaning when the table is 70% full, it will resize and rehash. Keeping the load factor below a certain threshold ensures that the hash table remains efficient.
+
+
+## Linear and Quadratic Probing in Hash Tables
+
+### Linear Probing
+
+**Linear probing** is a collision resolution technique in hash tables. When a collision occurs (i.e., two keys hash to the same index), linear probing searches for the next available slot by incrementing the index by a fixed step, usually `1`.
+
+#### Example of Linear Probing
+
+Suppose we have a hash table of size `7` and a simple hash function:
+
+\[ \text{hash}(key) = key \mod 7 \]
+
+Let's insert the keys `10`, `21`, `32`, and `43`:
+
+1. **Inserting `10`:**
+   - Hash index = `10 mod 7 = 3`
+   - Slot `3` is empty, so `10` is inserted at index `3`.
+   - Hash Table: `[-, -, -, 10, -, -, -]`
+
+2. **Inserting `21`:**
+   - Hash index = `21 mod 7 = 0`
+   - Slot `0` is empty, so `21` is inserted at index `0`.
+   - Hash Table: `[21, -, -, 10, -, -, -]`
+
+3. **Inserting `32`:**
+   - Hash index = `32 mod 7 = 4`
+   - Slot `4` is empty, so `32` is inserted at index `4`.
+   - Hash Table: `[21, -, -, 10, 32, -, -]`
+
+4. **Inserting `43`:**
+   - Hash index = `43 mod 7 = 1`
+   - Slot `1` is empty, so `43` is inserted at index `1`.
+   - Hash Table: `[21, 43, -, 10, 32, -, -]`
+
+No collisions occurred in the above steps.
+
+#### Handling Collisions with Linear Probing
+
+Now, let's insert the key `18`:
+
+1. **Inserting `18`:**
+   - Hash index = `18 mod 7 = 4`
+   - Slot `4` is occupied (by `32`), so we use linear probing to find the next available slot.
+   - Increment the index by `1` (i.e., `4 + 1 = 5`).
+   - Slot `5` is empty, so `18` is inserted at index `5`.
+   - Hash Table: `[21, 43, -, 10, 32, 18, -]`
+
+### Quadratic Probing
+
+**Quadratic probing** is another collision resolution technique that uses a quadratic function to determine the index of the next slot. Instead of incrementing by `1` like in linear probing, the index is incremented by a quadratic amount (e.g., `1^2`, `2^2`, `3^2`, etc.).
+
+#### Example of Quadratic Probing
+
+Using the same hash table and hash function:
+
+\[ \text{hash}(key) = key \mod 7 \]
+
+Let's insert the same keys: `10`, `21`, `32`, and `43`:
+
+1. **Inserting `10`:**
+   - Hash index = `10 mod 7 = 3`
+   - Slot `3` is empty, so `10` is inserted at index `3`.
+   - Hash Table: `[-, -, -, 10, -, -, -]`
+
+2. **Inserting `21`:**
+   - Hash index = `21 mod 7 = 0`
+   - Slot `0` is empty, so `21` is inserted at index `0`.
+   - Hash Table: `[21, -, -, 10, -, -, -]`
+
+3. **Inserting `32`:**
+   - Hash index = `32 mod 7 = 4`
+   - Slot `4` is empty, so `32` is inserted at index `4`.
+   - Hash Table: `[21, -, -, 10, 32, -, -]`
+
+4. **Inserting `43`:**
+   - Hash index = `43 mod 7 = 1`
+   - Slot `1` is empty, so `43` is inserted at index `1`.
+   - Hash Table: `[21, 43, -, 10, 32, -, -]`
+
+#### Handling Collisions with Quadratic Probing
+
+Now, let's insert the key `18`:
+
+1. **Inserting `18`:**
+   - Hash index = `18 mod 7 = 4`
+   - Slot `4` is occupied (by `32`), so we use quadratic probing to find the next available slot.
+   - First, try `4 + 1^2 = 5` (index `5`).
+   - Slot `5` is empty, so `18` is inserted at index `5`.
+   - Hash Table: `[21, 43, -, 10, 32, 18, -]`
+
+If the slot at index `5` were occupied, quadratic probing would check `4 + 2^2 = 8` (index `1` after wrapping around) and continue in this pattern until an empty slot is found.
+
+### Summary
+
+- **Linear Probing** increments the index by a fixed amount (usually `1`) until an empty slot is found.
+- **Quadratic Probing** increments the index by quadratic amounts (`1^2`, `2^2`, `3^2`, etc.) to avoid clustering and spread out the entries more evenly.
+
+Both techniques are effective at resolving collisions, but they can suffer from different issues like primary clustering (linear probing) and secondary clustering (quadratic probing).

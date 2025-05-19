@@ -1,0 +1,27 @@
+What is semantic search?
+when you search on google about apple, how it knows that this apple is either related to company or fruit.
+Concept behind is gonna be semantic search.
+It figures out user intent, embeddings are used there. Words are created into numerical representations.
+Those numerical representations.
+
+First technique is we have to think about features in that particular word like either it has calories, location, is it fruit, is 
+it related to phones, 
+
+
+First is word we search , 2nd is context
+
+if you search about fruits like apple ->
+related_to_phones 0
+related_to_fruits 1
+revenue 0 (because it is related to fruit)
+
+
+Cosine function technique is also that matches vector result if it is neer to one then added to result
+
+
+BERT,GPT are techniques to gather numerical representation of specific word
+
+We use hashing to get those similar vectors
+
+
+LOCALITY SENSITIVE HASHING
